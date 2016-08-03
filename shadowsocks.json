@@ -1,0 +1,10 @@
+{
+    "server": "0.0.0.0",
+    "local_port": 1080,
+    "port_password": {
+        "8388": "ss8388",
+        "8888": "bbbb"
+    },
+    "timeout": 600,
+    "method": "aes-256-cfb"
+}
