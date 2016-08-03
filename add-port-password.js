@@ -3,7 +3,7 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
 
-var shadowsocksConfURL = './shadowsocks.json';
+var shadowsocksConfURL = '/etc/shadowsocks.json';
 
 var shadowsocksConf = require(shadowsocksConfURL);
 
@@ -22,13 +22,14 @@ fs.writeFile(shadowsocksConfURL, JSON.stringify(shadowsocksConf, null, 4), funct
 		return console.log(error);
 	}
 
-	console.log('写入成功！');
-	exec(`echo 我要开始装逼了`, function(error, stdout, stderr) {
+	console.log('配置写入成功！');
+	console.log('正在重新载入shadowrocks配置文件...');
+	exec(`ssserver -d stop`, function(error, stdout, stderr) {
 		if (error) {
 			return console.log(error);
 		}
 
 		console.log(stdout);
-		console.log('装逼成功!');
+		console.log('重启成功!');
 	});
 });
