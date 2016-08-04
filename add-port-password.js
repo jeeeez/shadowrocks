@@ -24,7 +24,7 @@ fs.writeFile(shadowsocksConfURL, JSON.stringify(shadowsocksConf, null, 4), funct
 
 	console.log('配置写入成功！');
 	console.log('正在重新载入shadowrocks配置文件...');
-	exec(`ssserver -d stop`, function(error, stdout, stderr) {
+	exec(`./ssstarter.sh restart`, function(error, stdout, stderr) {
 		if (error) {
 			return console.log(error);
 		}
