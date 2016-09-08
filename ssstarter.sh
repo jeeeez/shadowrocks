@@ -4,12 +4,14 @@
 case $1 in
     start)
         echo -n "Starting shadowsocks"
-        nohup /usr/bin/ssserver -c /etc/shadowsocks.json > /usr/local/shadowsocks/log &
+        # nohup /usr/bin/ssserver -c /etc/shadowsocks.json > /usr/local/shadowsocks/log &
+        ssserver -c /etc/shadowsocks.json -d start
         echo " done"
     ;;
     stop)
         echo -n "Stopping shadowsocks"
-        kill -9 `ps -ef|grep '/usr/bin/python /usr/bin/ssserver'|grep -v 'grep'|awk {'print $2'}`
+        # kill -9 `ps -ef|grep '/usr/bin/python /usr/bin/ssserver'|grep -v 'grep'|awk {'print $2'}`
+        ssserver -c /etc/shadowsocks.json -d stop
         echo " done"
     ;;
     restart)
