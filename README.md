@@ -1,6 +1,6 @@
 # shadowrocks
 
-> 请确保系统已安装`node`程序
+> 请确保系统已安装`node`程序  
 > 确保`ssstarter.sh`拥有可执行权限
 ```bash
 chmod +x shadowrocks/ssstarter.sh
