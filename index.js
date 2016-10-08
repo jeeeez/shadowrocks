@@ -11,13 +11,13 @@ module.exports = {
 		var portPasswords = shadowsocksConf.port_password;
 		portPasswords[port] = password;
 
-		reload(shadowsocksConf);
+		return reload(shadowsocksConf);
 	},
 	remove: function(port) {
 		var portPasswords = shadowsocksConf.port_password;
 		delete portPasswords[port];
 
-		reload(shadowsocksConf);
+		return reload(shadowsocksConf);
 	}
 };
 
@@ -25,18 +25,19 @@ module.exports = {
 function reload(shadowsocksConf) {
 	fs.writeFile(shadowsocksConfURL, JSON.stringify(shadowsocksConf, null, 4), function(error) {
 		if (error) {
-			return console.log(error);
+			return Promise.reject(error);
 		}
 
 		console.log('配置写入成功！');
 		console.log('正在重新载入shadowrocks配置文件...');
 		exec(`./ssstarter.sh restart`, function(error, stdout, stderr) {
 			if (error) {
-				return console.log(error);
+				return Promise.reject(error);
 			}
 
 			console.log(stdout);
 			console.log('重启成功!');
+			return Promise.resolve();
 		});
 	});
 }
