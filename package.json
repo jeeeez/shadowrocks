@@ -1,19 +1,19 @@
 {
-  "name": "shadowrocks",
-  "version": "1.0.0",
-  "description": "> 请确保系统已安装`node`程序   > 确保`ssstarter.sh`拥有可执行权限 ```bash chmod +x shadowrocks/ssstarter.sh ```",
-  "main": "add-port-password.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/li2274221/shadowrocks.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/li2274221/shadowrocks/issues"
-  },
-  "homepage": "https://github.com/li2274221/shadowrocks#readme"
+	"name": "shadowrocks",
+	"version": "1.0.0",
+	"description": "> 请确保系统已安装`node`程序   > 确保`ssstarter.sh`拥有可执行权限 ```bash chmod +x shadowrocks/ssstarter.sh ```",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/li2274221/shadowrocks.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/li2274221/shadowrocks/issues"
+	},
+	"homepage": "https://github.com/li2274221/shadowrocks#readme"
 }
