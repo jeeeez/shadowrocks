@@ -19,14 +19,14 @@ portPasswords[port] = password;
 
 fs.writeFile(shadowsocksConfURL, JSON.stringify(shadowsocksConf, null, 4), function(error) {
 	if (error) {
-		return console.log(error);
+		return console.error(error);
 	}
 
 	console.log('配置写入成功！');
 	console.log('正在重新载入shadowrocks配置文件...');
 	exec(`${__dirname}/ssstarter.sh restart`, function(error, stdout, stderr) {
 		if (error) {
-			return console.log(error);
+			return console.error(error);
 		}
 
 		console.log(stdout);

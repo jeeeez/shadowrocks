@@ -11,13 +11,17 @@ module.exports = {
 		var portPasswords = shadowsocksConf.port_password;
 		portPasswords[port] = password;
 
-		return reload(shadowsocksConf);
+		return reload(shadowsocksConf).catch(error => {
+			console.error(error);
+		});
 	},
 	remove: function(port) {
 		var portPasswords = shadowsocksConf.port_password;
 		delete portPasswords[port];
 
-		return reload(shadowsocksConf);
+		return reload(shadowsocksConf).catch(error => {
+			console.error(error);
+		});
 	}
 };
 
