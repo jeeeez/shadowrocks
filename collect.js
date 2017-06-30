@@ -1,84 +1,74 @@
 #!/usr/bin/env node
 
 /**
- * 收集端口流量进出数据
+ * @see https://github.com/jeezlee/www.pickerlee.com/wiki/Centos-%E9%85%8D%E7%BD%AE-iptables-%E6%8F%90%E4%BE%9B-shadowsocks-%E6%9C%8D%E5%8A%A1
  */
 
 var exec = require('child_process').exec;
 var http = require('http');
 
-// 接口域名
+// api host
 const HOST = 'www.fjvpn.com';
 
-collectInput();
-collectOutput();
 
-// 收集INPUT规则流量数据
+// main function
+Promise.all([collectInput(), collectOutput()])
+	.then(function([inputData, outputData]) {
+		const formData = {
+			input: inputData,
+			output: outputData
+		};
+		// console.log(JSON.stringify(formData, null, 4));
+		return submit(JSON.stringify(formData)).then(function() {
+			exec(`iptables -Z INPUT && iptables -Z OUT`);
+		});
+	}).catch(error => {
+		errorHandle(error);
+	});
+
+
+
+function collect(rule, tag) {
+	const collectCMD = `iptables -L ${rule} -v -n -x | awk -F"[:\t ]+" 'BEGIN {print "{"} /${tag}/{print "\\\""$12"\\\":"$3","} END {print "}"}'`;
+
+	return new Promise(function(resolve, reject) {
+		exec(collectCMD, function(error, stdout, stderr) {
+			if (error) {
+				return reject(error);
+			}
+
+			try {
+				const data = JSON.parse(stdout.replace(',\n}', '\n}'));
+				Object.keys(data).forEach(key => {
+					if (!data[key]) {
+						delete data[key];
+					}
+				});
+
+				resolve(data);
+
+			} catch (error) {
+				reject(error);
+			}
+		});
+	});
+}
+
 function collectInput() {
-	exec(`iptables -L INPUT -v -n -x | awk -F"[:\t ]+" 'BEGIN {print "{"} /dpt/{print "\\\""$12"\\\":"$3","} END {print "}"}'`, function(error, stdout, stderr) {
-		if (error) {
-			return errorHandle(error);
-		}
-
-		try {
-			const data = JSON.parse(stdout.replace(',\n}', '\n}'));
-			Object.keys(data).forEach(key => {
-				if (!data[key]) {
-					delete data[key];
-				}
-			});
-
-			submit(JSON.stringify(data)).then(function() {
-				exec(`iptables -Z INPUT`, function(error) {
-					if (error) {
-						return errorHandle(error);
-					}
-				});
-			}).catch(error => {
-				errorHandle(error);
-			});
-
-		} catch (error) {
-			errorHandle(error);
-		}
+	return collect('INPUT', 'dpt').then(function(data) {
+		// write data to log
+		return data;
 	});
 }
 
-// 收集OUTPUT规则流量数据
 function collectOutput() {
-	exec(`iptables -L OUTPUT -v -n -x | awk -F"[:\t ]+" 'BEGIN {print "{"} /spt/{print "\\\""$12"\\\":"$3","} END {print "}"}'`, function(error, stdout, stderr) {
-		if (error) {
-			return errorHandle(error);
-		}
-
-		try {
-			const data = JSON.parse(stdout.replace(',\n}', '\n}'));
-			Object.keys(data).forEach(key => {
-				if (!data[key]) {
-					delete data[key];
-				}
-			});
-
-			submit(JSON.stringify(data)).then(function() {
-				exec(`iptables -Z OUTPUT`, function(error) {
-					if (error) {
-						return errorHandle(error);
-					}
-				});
-			}).catch(error => {
-				errorHandle(error);
-			});
-
-		} catch (error) {
-			errorHandle(error);
-		}
+	return collect('OUTPUT', 'spt').then(function(data) {
+		// write data to log
+		return data;
 	});
 }
 
-/**
- * 错误处理
- * 1、写入日志文件
- */
+
 function errorHandle(error) {
 	console.log(error);
 }
