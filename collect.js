@@ -1,14 +1,25 @@
 #!/usr/bin/env node
 
 /**
+ * @useage `./collect.js development` | `./collect.js production`
  * @see https://github.com/jeezlee/www.pickerlee.com/wiki/Centos-%E9%85%8D%E7%BD%AE-iptables-%E6%8F%90%E4%BE%9B-shadowsocks-%E6%9C%8D%E5%8A%A1
  */
 
 var exec = require('child_process').exec;
 var http = require('http');
 
+var arguments = process.argv.splice(2);
+const ENV = arguments[0] || 'production';
+
+const hostMap = {
+	production: 'www.fjvpn.com',
+	development: 'localhost:8080'
+};
+
+return;
+
 // api host
-const HOST = 'www.fjvpn.com';
+const HOST = hostMap[ENV] || hostMap.development;
 
 
 // main function
