@@ -7,8 +7,22 @@ chmod +x shadowrocks/ssstarter.sh
 ```
 
 ## Usage
+
+### 添加指定端口/密码
 ```bash
-./add-port-password.sh PORT PASSWORD
+./add-port-password.js PORT PASSWORD
+```
+
+### 开启/关闭/重启ss服务
+```bash
+./ssstarter.sh start
+./ssstarter.sh stop
+./ssstarter.sh restart
+```
+
+### 重新载入shadowrocks配置文件
+```bash
+./initialize.js '{"8000":"1234","8001":"12345"}'
 ```
 
 ## More
