@@ -26,4 +26,4 @@ chmod +x shadowrocks/ssstarter.sh
 ```
 
 ## More
-`shadowrocks`安装可移步至[CentOS6.6安装ShadowSocks服务](https://github.com/li2274221/www.pickerlee.com/wiki/CentOS6.6%E5%AE%89%E8%A3%85ShadowSocks%E6%9C%8D%E5%8A%A1)
+`shadowrocks`安装可移步至[CentOS6.6安装ShadowSocks服务](https://github.com/jeezlee/www.pickerlee.com/wiki/CentOS6.6%E5%AE%89%E8%A3%85ShadowSocks%E6%9C%8D%E5%8A%A1)
